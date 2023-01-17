@@ -16,6 +16,7 @@ pipeline {
           sshagent(['docker-server']) {
           sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 cd /home/ec2-user/'
             sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker build -t myimage:2.0 .'
+          }
       
       }
     
