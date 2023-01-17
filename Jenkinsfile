@@ -26,7 +26,7 @@ pipeline {
         sshagent(['docker-server']) {
           withCredentials([string(credentialsId: 'dockerpwd', variable: 'dockerpwd')]) {
              sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker login -u manojtiwari000 -p ${dockerpwd}'
-            sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker image push manojtiwari000/myimage:2.0'
+            sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker image push myimage:2.0'
             
             }
         
