@@ -26,7 +26,7 @@ pipeline {
       steps {
           sshagent(['docker-server']) {
           sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 cd /home/ec2-user/'
-            sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker image tag myimage:2.0 nginximage/myimage:latest'
+            sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker image tag myimage:2.0 manojtiwari000/myimage:latest'
           }
       
       }
@@ -38,7 +38,7 @@ pipeline {
         sshagent(['docker-server']) {
           withCredentials([string(credentialsId: 'dockerpwd', variable: 'dockerpwd')]) {
              sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker login -u manojtiwari000 -p ${dockerpwd}'
-            sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker image push nginximage/myimage:latest'
+            sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker image push manojtiwari000/myimage:latest'
             
             }
         
