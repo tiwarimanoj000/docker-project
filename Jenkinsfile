@@ -1,12 +1,12 @@
 pipeline {
   agent any
   stages {
-    stage ("git checkout") {
+    stage ('send dockerfile to the docker server') {
       steps {
-        git branch: 'main', url: 'https://github.com/tiwarimanoj000/docker-project.git'
-      
-      }
-    
+        sshagent(['docker-server']) {
+          pwd()
+        }
+        }
     }
   
   }
