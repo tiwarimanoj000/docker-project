@@ -15,18 +15,30 @@ pipeline {
       steps {
           sshagent(['docker-server']) {
           sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 cd /home/ec2-user/'
-            sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker build -t myimage:2.0 .'
+            sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker image build -t myimage:2.0 .'
           }
       
       }
     
     }
+    
+     stage ('tagging') {
+      steps {
+          sshagent(['docker-server']) {
+          sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 cd /home/ec2-user/'
+            sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker image tag myimage:2.0 nginximage/myimage:latest'
+          }
+      
+      }
+    
+    }
+    
     stage ('docker login and push to the docker hub') {
       steps {
         sshagent(['docker-server']) {
           withCredentials([string(credentialsId: 'dockerpwd', variable: 'dockerpwd')]) {
              sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker login -u manojtiwari000 -p ${dockerpwd}'
-            sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker image push myimage:2.0'
+            sh 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.13.220 docker image push nginximage/myimage:latest'
             
             }
         
